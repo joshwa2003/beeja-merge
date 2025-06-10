@@ -75,7 +75,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
             <IconBtn
               text="Add Review"
               // customClasses="ml-auto"
-              onClick={() => setReviewModal(true)}
+              onclick={() => setReviewModal(true)}
             />
           </div>
 

@@ -23,16 +23,11 @@ function VerifyEmail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleVerifyAndSignup = async (e) => {
+  const handleVerifyAndSignup = (e) => {
     e.preventDefault();
-    const { accountType, firstName, lastName, email, password, confirmPassword } = signupData;
+    const { accountType, firstName, lastName, email, password, confirmPassword, } = signupData;
 
-    try {
-      await dispatch(signUp(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate));
-    } catch (error) {
-      // Clear OTP input on error
-      setOtp("");
-    }
+    dispatch(signUp(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate));
   };
 
   return (
