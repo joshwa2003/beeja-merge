@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, matchPath, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../services/operations/authAPI";
+import { Link, matchPath, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { NavbarLinks } from "../../../data/navbar-links";
 import studyNotionLogo from "../../assets/Logo/Logo-Full-Light.png";
@@ -11,8 +10,6 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { totalItems } = useSelector((state) => state.cart);
@@ -63,16 +60,6 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
-  };
-
-  const handleLogin = () => {
-    navigate("/login");
-    setMobileMenuOpen(false);
-  };
-
-  const handleSignup = () => {
-    navigate("/signup");
-    setMobileMenuOpen(false);
   };
 
   return (
@@ -134,7 +121,7 @@ const Navbar = () => {
                     group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]"
                   >
                     <div className="absolute left-[50%] top-0 z-[100] h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
-                    {loading ? (<p className="text-center">Loading...</p>)
+                    {loading ? (<p className="text-center ">Loading...</p>)
                       : subLinks.length ? (
                         <>
                           {subLinks?.map((subLink, i) => (
@@ -168,19 +155,6 @@ const Navbar = () => {
             </li>
           ))}
 
-          {/* Free Courses Link */}
-          <li>
-            <Link to="/free-courses">
-              <p className={`${
-                matchRoute("/free-courses")
-                  ? "bg-yellow-25 text-black"
-                  : "text-richblack-25"
-              } rounded-xl p-1 px-3`}>
-                Free Courses
-              </p>
-            </Link>
-          </li>
-
           {/* Services Dropdown */}
           <li className="relative group flex cursor-pointer items-center gap-1 rounded-xl p-1 px-3 text-richblack-25 hover:bg-richblack-50">
             <span>Services</span>
@@ -201,58 +175,6 @@ const Navbar = () => {
               </Link>
             </div>
           </li>
-
-          {/* Auth Buttons - Show only when user is not logged in */}
-          {!token && (
-            <>
-              <li>
-                <button 
-                  onClick={handleLogin}
-                  className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100"
-                >
-                  Log in
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={handleSignup}
-                  className="rounded-[8px] bg-yellow-50 px-[12px] py-[8px] text-richblack-900"
-                >
-                  Sign up
-                </button>
-              </li>
-            </>
-          )}
-
-          {/* User Profile Picture with Dropdown */}
-          {token && user && (
-            <li className="relative ml-4 flex items-center group">
-              <img
-                src={user.image}
-                alt={`${user.firstName} ${user.lastName}`}
-                className="h-10 w-10 rounded-full object-cover cursor-pointer border-2 border-transparent hover:border-yellow-50"
-                title={`${user.firstName} ${user.lastName}`}
-              />
-              {/* Dropdown Menu */}
-              <div className="invisible absolute right-0 top-[120%] z-[1000] flex w-[200px] flex-col rounded-lg bg-richblack-800 p-4 text-richblack-25 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
-                <div className="absolute right-4 top-0 h-6 w-6 rotate-45 translate-y-[-50%] select-none rounded bg-richblack-800"></div>
-                <Link to="/dashboard/my-profile" className="rounded-lg py-2 px-3 hover:bg-richblack-700">
-                  Dashboard
-                </Link>
-                {user.accountType === "Admin" && (
-                  <Link to="/admin" className="rounded-lg py-2 px-3 hover:bg-richblack-700">
-                    Admin Dashboard
-                  </Link>
-                )}
-                <button onClick={() => {
-                  dispatch(logout(navigate));
-                  setMobileMenuOpen(false);
-                }} className="rounded-lg py-2 px-3 hover:bg-richblack-700 text-left">
-                  Logout
-                </button>
-              </div>
-            </li>
-          )}
         </ul>
 
         {/* Mobile menu - visible on small devices */}
@@ -300,7 +222,6 @@ const Navbar = () => {
                 </li>
               ))}
 
-              {/* Services for Mobile */}
               <details>
                 <summary className="cursor-pointer rounded-xl p-2 hover:bg-richblack-800">
                   Services
@@ -322,28 +243,6 @@ const Navbar = () => {
                   </Link>
                 </div>
               </details>
-
-              {/* Auth Buttons for Mobile */}
-              {!token && (
-                <>
-                  <li>
-                    <button
-                      onClick={handleLogin}
-                      className="w-full text-left block rounded-xl p-2 hover:bg-richblack-800"
-                    >
-                      Log in
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleSignup}
-                      className="w-full text-left block rounded-xl p-2 hover:bg-richblack-800"
-                    >
-                      Sign up
-                    </button>
-                  </li>
-                </>
-              )}
             </ul>
           </div>
         )}
